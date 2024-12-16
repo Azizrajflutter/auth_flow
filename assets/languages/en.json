@@ -3,6 +3,38 @@
     "theme": "Theme",
     "system": "System",
     "dark": "Dark",
-    "light": "Light"
+    "light": "Light",
+     "welcome_back": "Welcome Back!",
+     "enter_mail":"Enter your email",
+     "enter_password":"Enter your password",
+     "remember_me":"Remember me",
+     "forget_password":"Forget password?",
+     "sign_in":"Sign In",
+     "sign_up":"Sign Up",
+     "or":"Or",
+     "dont_have_acc":"Don't have an account?",
+    
+     "register":"Register",
+     "enter_user_name":"Enter your username",
+     "confirm_password":"Confirm Password",
+     "confirm":"Confirm All ",
+     "terms_conditions":"Terms & Conditions",
+     "already_have_acc":"Already have an account?",
+     "forget":"Forget Password",
+     "send_code":"Send Code",
+    "try_othe_way" :"Try another way?",
+    "verify_email":"Verify Your  Email",
+    "enter_4_digits":"Please enter 4 digits code sent to\n",
+    "verify_code":"Verify Code",
+    "resend":"Resend code?",
+
+    "create_new_pass":"Create New Password",
+    "save":"Save",
+    "create_pass":"Create New Pasword",
+    "password_deffrent":"Your new password must be diffrent from\n previous used password"
+
+     
+     
+      
     
 }

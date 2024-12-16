@@ -78,17 +78,17 @@ android {
     signingConfigs {
 
         debug {
-            storeFile file(project.env.KEYSTORE_PATH.toString())
-            storePassword project.env.KEYSTORE_PASSWORD
-            keyAlias project.env.KEYSTORE_ALIAS
-            keyPassword project.env.KEY_PASSWORD
+            // storeFile file(project.env.KEYSTORE_PATH.toString())
+            // storePassword project.env.KEYSTORE_PASSWORD
+            // keyAlias project.env.KEYSTORE_ALIAS
+            // keyPassword project.env.KEY_PASSWORD
         }
 
         release {
-            storeFile file(project.env.KEYSTORE_PATH.toString())
-            storePassword project.env.KEYSTORE_PASSWORD
-            keyAlias project.env.KEYSTORE_ALIAS
-            keyPassword project.env.KEY_PASSWORD
+            // storeFile file(project.env.KEYSTORE_PATH.toString())
+            // storePassword project.env.KEYSTORE_PASSWORD
+            // keyAlias project.env.KEYSTORE_ALIAS
+            // keyPassword project.env.KEY_PASSWORD
         }
     }
 

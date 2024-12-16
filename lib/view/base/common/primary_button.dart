@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:startup_repo/utils/style.dart';
 import '../../../utils/colors.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -78,5 +79,30 @@ class PrimaryOutlineButton extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class PrimaryTextBotton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onTap;
+  final TextStyle? textStyle;
+  final EdgeInsetsGeometry? padding;
+  const PrimaryTextBotton({
+    super.key,
+    required this.text,
+    this.onTap,
+    this.textStyle,
+    this.padding = EdgeInsets.zero,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        style: TextButton.styleFrom(padding: padding),
+        onPressed: onTap,
+        child: Text(
+          text.tr,
+          style: textStyle ?? bodyMedium(context).copyWith(color: Theme.of(context).primaryColor),
+        ));
   }
 }

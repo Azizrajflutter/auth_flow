@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:startup_repo/utils/extension.dart';
 
 import '../../../utils/style.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? labelText, hintText;
   final Widget? suffixIcon;
@@ -42,62 +44,107 @@ class CustomTextField extends StatelessWidget {
       super.key});
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  late bool _isObscured;
+  bool _isFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = widget.obscureText;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? EdgeInsetsDirectional.only(top: labelText == null ? 5 : 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          // title
-          if (labelText != null) ...[
-            Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Text(labelText!,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
-            ),
-            const SizedBox(height: 5),
-          ],
-          TextFormField(
-            onTapOutside: (event) => FocusScope.of(context).unfocus(),
-            controller: controller,
-            obscureText: obscureText,
-            validator: validator,
-            onChanged: onChanged,
-            onFieldSubmitted: onSubmitted,
-            onSaved: onSaved,
-            keyboardType: keyboardType,
-            textInputAction: textInputAction,
-            onTap: onTap,
-            decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              prefixIcon: prefix ??
-                  (prefixIcon != null
-                      ? Icon(
-                          prefixIcon,
-                          size: 20,
-                          color: Theme.of(context).hintColor,
-                        )
-                      : null),
-              hintText: hintText,
-              hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).hintColor,
-                    fontWeight: FontWeight.normal,
-                  ),
-              errorStyle: const TextStyle(fontWeight: FontWeight.normal),
-              enabledBorder: border(context, color: Theme.of(context).cardColor, circular: radius),
-              disabledBorder: border(context),
-              focusedBorder: border(context, color: Theme.of(context).primaryColor, circular: radius),
-              errorBorder: border(context, color: Theme.of(context).colorScheme.error, circular: radius),
-              focusedErrorBorder: border(context, circular: radius),
-              filled: filled,
-              fillColor: Theme.of(context).cardColor.withOpacity(0.4),
-              contentPadding: EdgeInsets.all(18.sp),
-              suffixIcon: suffixIcon,
-            ),
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.normal),
+      padding: widget.padding ?? EdgeInsetsDirectional.only(top: widget.labelText == null ? 5 : 15),
+      child: TextFormField(
+        onTapOutside: (event) {
+          FocusScope.of(context).unfocus();
+        },
+        controller: widget.controller,
+        obscureText: _isObscured,
+        validator: widget.validator,
+        onChanged: (text) {
+          if (widget.onChanged != null) {
+            widget.onChanged!(text);
+          }
+
+          setState(() {
+            _isFocused = text.isNotEmpty ||
+                widget.controller!.selection.baseOffset != widget.controller!.selection.extentOffset;
+          });
+        },
+        onFieldSubmitted: widget.onSubmitted,
+        onSaved: widget.onSaved,
+        keyboardType: widget.keyboardType,
+        textInputAction: widget.textInputAction,
+        onTap: () {
+          if (widget.onTap != null) {
+            widget.onTap!;
+          }
+          setState(() {
+            _isFocused = widget.controller!.text.isNotEmpty ||
+                widget.controller!.selection.isValid &&
+                    widget.controller!.selection.baseOffset != widget.controller!.selection.extentOffset;
+          });
+        },
+        decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          label: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.prefixIcon != null)
+                Icon(
+                  widget.prefixIcon,
+                  size: 20,
+                  color: _isFocused ? Theme.of(context).primaryColor : Theme.of(context).hintColor,
+                ),
+              10.spSizeBoxHorizontal(),
+              Text(
+                "${widget.labelText}".tr,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).hintColor,
+                      fontWeight: FontWeight.normal,
+                    ),
+              ),
+            ],
           ),
-        ],
+          hintText: widget.hintText,
+          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).hintColor,
+                fontWeight: FontWeight.normal,
+              ),
+          errorStyle: const TextStyle(fontWeight: FontWeight.normal),
+          enabledBorder: widget.controller!.text.isNotEmpty
+              ? border(context, color: Theme.of(context).primaryColor)
+              : border(context, color: Theme.of(context).dividerColor, circular: widget.radius),
+          disabledBorder: border(context, color: Theme.of(context).primaryColor),
+          focusedBorder: border(context, color: Theme.of(context).primaryColor, circular: widget.radius),
+          errorBorder: border(context, color: Theme.of(context).colorScheme.error, circular: widget.radius),
+          focusedErrorBorder: border(context, circular: widget.radius),
+          filled: widget.filled,
+          fillColor: Theme.of(context).cardColor.withOpacity(0.4),
+          contentPadding: EdgeInsets.all(18.sp),
+          suffixIcon: widget.obscureText
+              ? IconButton(
+                  icon: Icon(
+                    _isObscured ? Icons.remove_red_eye_outlined : Icons.visibility_off_outlined,
+                    size: 20.sp,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isObscured = !_isObscured;
+                    });
+                  },
+                )
+              : null,
+        ),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.normal),
       ),
     );
   }

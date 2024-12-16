@@ -49,6 +49,6 @@ ThemeData get lightTheme => ThemeData(
         shadowColor: backgroundColorLight,
         iconTheme: IconThemeData(color: iconColorLight, size: 24.sp),
         titleTextStyle: GoogleFonts.poppins(fontSize: 22.sp, color: textColorLight),
-        centerTitle: false,
+        centerTitle: true,
       ),
     );

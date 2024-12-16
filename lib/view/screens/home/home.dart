@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:startup_repo/controller/theme_controller.dart';
+import 'package:startup_repo/helper/navigation.dart';
 import 'package:startup_repo/utils/colors.dart';
 import 'package:startup_repo/utils/style.dart';
 import 'package:startup_repo/view/base/common/primary_button.dart';
+import 'package:startup_repo/view/screens/sign_in/sign_in_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -97,7 +99,9 @@ class HomeScreen extends StatelessWidget {
                   child: PrimaryButton(
                     text: 'Primary Button',
                     icon: const Icon(Iconsax.video, size: 16, color: Colors.white),
-                    onPressed: () {},
+                    onPressed: () {
+                      launchScreen(const SignInScreen());
+                    },
                   ),
                 ),
               ],
